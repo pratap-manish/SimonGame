@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- google fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simon Game</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <h1>Feeling Bored, Play the Simon Game and Check your Memory</h1>
+    <h2>Start the Game by pressing any key or </h2>
+    <button class="for-mobile" onclick="mob()">Click Here</button>
+    <div class="buttons first-row">
+        <button class="yellow hov a1">1</button>
+        <button class="red hov a2">2</button>
+    </div>
+    <div class="buttons second-row">
+        <button class="green hov a3">3</button>
+        <button class="blue hov a4">4</button>
+    </div>
+    <script>
+        var level = 0;
+        var start = false;
+        gamePattern = [];
+        clickedPattern = [];
+
+        document.addEventListener("keypress", mob);
+        function mob() {
+            if (start == false) {
+                document.querySelector("h1").innerHTML = "You are On";
+                pattern(); 
+                document.querySelector(".for-mobile").classList.add("hide");
+               
+                start = true;
+            }
+        };
+        for (var j = 0; j < document.querySelectorAll(".hov").length; j++){
+        document.querySelectorAll(".hov")[j].addEventListener("click", function () {
+                var ky = parseInt(this.innerHTML);
+                document.querySelector(".for-mobile").classList.add("hide");
+                clickedPattern.push(ky);
+                anim(this.innerHTML)
+                main(parseInt(this.innerHTML))
+                check(clickedPattern.length - 1);
+            })
+            }
+            function check(getvalue){
+                if(clickedPattern[getvalue] === gamePattern[getvalue] ){
+                    if (clickedPattern.length === gamePattern.length){
+                        document.querySelector("h1").innerHTML = "correct";
+                        setTimeout(function(){
+                            pattern()
+                        },1200);
+
+                    }
+                }
+                else{
+                    var sc = level-1;
+                    if(sc== -1){
+                        sc=0;
+                    }
+                    document.querySelector("h1").innerHTML = "Game Over Your Score is " + sc;
+                    document.querySelector("h2").innerHTML = "Press any key to start or"
+                    // document.querySelector(".mob1").add(".for-mobile")
+                    document.querySelector("body").classList.add("newBodyClass");
+                    var btn = document.createElement("button");
+                    btn.setAttribute("class","mob1")
+                    btn.innerHTML = "Click Here"
+                    btn.setAttribute("onclick","mob()")
+                    // document.querySelector(".mob1").add(".for-mobile");
+                    document.querySelector("h2").appendChild(btn)
+                    // document.querySelector(".for-mobile").add();
+
+                       wrongSound(); 
+                    level = 0;
+                    gamePattern = []
+                    start = false;
+                    setTimeout(function(){
+                        document.querySelector("body").classList.remove("newBodyClass")
+                    },300)
+                }
+            }
+
+            function wrongSound(){
+                var wr = new Audio("sounds/wrong.mp3");
+                wr.play();
+            }
+            
+
+
+
+               /*  if (ky == gamePattern[i]) {
+                    // console.log(this.innerHTML)
+                    anim(this.innerHTML)
+                    main(parseInt(this.innerHTML))
+                    pattern();
+                }
+                else {
+                    document.querySelector("h1").innerHTML = "Game Over, press any key to restart";
+                    gamePattern = [];
+                    anim(this.innerHTML)
+                    main(parseInt(this.innerHTML))
+                    // console.log(arr)
+
+                    console.log(parseInt(this.innerHTML));
+
+
+
+
+                } */
+
+
+
+            
+
+        // document.removeEventListener("keypress",function(){
+        //       k=1;  
+        // })
+
+        // for(var i = 0;i < document.querySelectorAll("button").length;i++){
+        //     document.querySelectorAll(".hov")[i].addEventListener("click",clicked);}
+
+        // function clicked(){
+        //     // console.log(this.innerHTML)
+        //     var buttonClicked = this.innerHTML;
+        //     main(buttonClicked)
+        //     anim(buttonClicked)
+
+        // }
+        function pattern() {
+            clickedPattern = [];
+            var num = Math.floor(Math.random() * 4) + 1;
+            gamePattern.push(num);
+            level++;
+            document.querySelector("h1").innerHTML = "You are On";
+
+            document.querySelector("h2").innerHTML = "Level " + level;
+            // main(num);
+            // anim(num);
+                for (i = 0;i<gamePattern.length;i++){
+                    task(i)
+                    
+            }
+            function task(patt){
+            setTimeout(function(){
+                main(gamePattern[patt]);
+                anim(gamePattern[patt]);
+            },600*patt);
+        }
+            
+           
+
+            // game();
+
+          
+        }
+              /*   for (var j = 0; j < document.querySelectorAll(".hov").length; j++) {
+                    document.getElementsByClassName("hov")[j].addEventListener("click", function () {
+                        var ky = parseInt(this.innerHTML);
+                        if (ky == arr[i]) {
+                            // console.log(this.innerHTML)
+                            anim(this.innerHTML)
+                            level();
+                        }
+                        else {
+                            document.querySelector("h1").innerHTML = "Game Over, press any key to restart";
+                            arr = [];
+                            main(parseInt(this.innerHTML))
+                            console.log(arr)
+
+                            console.log(parseInt(this.innerHTML))
+
+                        }
+                    })
+                } */
+
+
+
+
+
+
+
+               /*  function game() {
+
+                    for (var i = 0; i < arr.length; i++) {
+
+                    }
+                } */
+
+
+                function main(final) {
+                    switch (final) {
+                        case 1:
+                            var a = new Audio("sounds/yellow.mp3");
+                            a.play();
+                            break;
+                        case 2:
+                            var b = new Audio("sounds/red.mp3");
+                            b.play();
+                            break;
+                        case 3:
+                            var c = new Audio("sounds/green.mp3");
+                            c.play();
+                            break;
+                        case 4:
+                            var d = new Audio("sounds/blue.mp3");
+                            d.play();
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                function anim(btn) {
+                    document.querySelector(".a" + btn).classList.add("pressed");
+
+                    setTimeout(function () {
+                        document.querySelector(".a" + btn).classList.remove("pressed")
+                    }, 150)
+                }
+
+    </script>
+
+</body>
+
+</html>
